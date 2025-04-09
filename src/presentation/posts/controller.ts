@@ -1,14 +1,28 @@
 import { Request, Response } from 'express'
+import { PostService } from '../services/post.service'
+import { CustomError } from '../../domain/errors/custom.error'
 
 export class PostController {
-  constructor() {}
+  constructor(private readonly postService: PostService) {}
+
+  private handleError = (res: Response, error: unknown) => {
+    if (error instanceof CustomError) {
+      res.status(error.statusCode).json({ error: error.message })
+      return
+    }
+
+    res.status(500).json({ error: 'Internal server errorr - check logs' })
+  }
 
   public getPost = (req: Request, res: Response) => {
     res.json('get post')
   }
 
   public getPosts = (req: Request, res: Response) => {
-    res.json('get posts')
+    this.postService
+      .getPosts()
+      .then(posts => res.json(posts))
+      .catch(error => this.handleError(res, error))
   }
 
   public createPost = (req: Request, res: Response) => {
