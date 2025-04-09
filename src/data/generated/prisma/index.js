@@ -130,7 +130,7 @@ const config = {
       "value": "prisma-client-js"
     },
     "output": {
-      "value": "D:\\dev\\backend-projects-roadmap\\blogging-api\\src\\generated\\prisma",
+      "value": "D:\\dev\\backend-projects-roadmap\\blogging-api\\src\\data\\generated\\prisma",
       "fromEnvVar": null
     },
     "config": {
@@ -148,26 +148,27 @@ const config = {
     "isCustomOutput": true
   },
   "relativeEnvPaths": {
-    "rootEnvPath": "../../../.env",
-    "schemaEnvPath": "../../../.env"
+    "rootEnvPath": "../../../../.env",
+    "schemaEnvPath": "../../../../.env"
   },
-  "relativePath": "../../../prisma",
+  "relativePath": "../../../../prisma",
   "clientVersion": "6.6.0",
   "engineVersion": "f676762280b54cd07c770017ed3711ddde35f37a",
   "datasourceNames": [
     "db"
   ],
   "activeProvider": "postgresql",
+  "postinstall": false,
   "inlineDatasources": {
     "db": {
       "url": {
         "fromEnvVar": "POSTGRES_URL",
-        "value": "postgresql://postgres:kokun6969@localhost:5432/BLOGGING-PLATFORM"
+        "value": null
       }
     }
   },
-  "inlineSchema": "// This is your Prisma schema file,\n// learn more about it in the docs: https://pris.ly/d/prisma-schema\n\n// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?\n// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init\n\ngenerator client {\n  provider = \"prisma-client-js\"\n  output   = \"../src/generated/prisma\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n  url      = env(\"POSTGRES_URL\")\n}\n\nmodel Post {\n  id        Int       @id @default(autoincrement())\n  title     String\n  content   String\n  category  String\n  tags      String[]\n  createdAt DateTime  @default(now())\n  updatedAt DateTime?\n\n  @@index([title])\n  @@map(\"post\")\n}\n",
-  "inlineSchemaHash": "f1b30b1a29724717ec0b381ff9749fa546479303deaaf575dca223efd1684721",
+  "inlineSchema": "// This is your Prisma schema file,\n// learn more about it in the docs: https://pris.ly/d/prisma-schema\n\n// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?\n// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init\n\ngenerator client {\n  provider = \"prisma-client-js\"\n  output   = \"../src/data/generated/prisma\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n  url      = env(\"POSTGRES_URL\")\n}\n\nmodel Post {\n  id        Int       @id @default(autoincrement())\n  title     String\n  content   String\n  category  String\n  tags      String[]\n  createdAt DateTime  @default(now())\n  updatedAt DateTime?\n\n  @@index([title])\n  @@map(\"post\")\n}\n",
+  "inlineSchemaHash": "be860c8b03c7d741bff70ffe0045d15fb31a724f2fe893d487894da6cd57130b",
   "copyEngine": true
 }
 
@@ -176,8 +177,8 @@ const fs = require('fs')
 config.dirname = __dirname
 if (!fs.existsSync(path.join(__dirname, 'schema.prisma'))) {
   const alternativePaths = [
-    "src/generated/prisma",
-    "generated/prisma",
+    "src/data/generated/prisma",
+    "data/generated/prisma",
   ]
   
   const alternativePath = alternativePaths.find((altPath) => {
@@ -207,7 +208,7 @@ Object.assign(exports, Prisma)
 
 // file annotations for bundling tools to include these files
 path.join(__dirname, "query_engine-windows.dll.node");
-path.join(process.cwd(), "src/generated/prisma/query_engine-windows.dll.node")
+path.join(process.cwd(), "src/data/generated/prisma/query_engine-windows.dll.node")
 // file annotations for bundling tools to include these files
 path.join(__dirname, "schema.prisma");
-path.join(process.cwd(), "src/generated/prisma/schema.prisma")
+path.join(process.cwd(), "src/data/generated/prisma/schema.prisma")
