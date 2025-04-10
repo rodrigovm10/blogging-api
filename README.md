@@ -27,9 +27,10 @@ PostgreSQL. This project focuses on implementing CRUD operations following REST 
 
 1. Clone the .env.template file and configure the environment variables.
 2. Run `npm install` to install the project dependencies.
-3. If you need the database, configure the docker-compose.yml file and run `docker-compose up -d` to
-   start the services.
-4. Run `npm run dev` to start the project in development mode.
+3. If you need the database, configure the docker-compose.yml file and run `docker-compose up -d` to start the services.
+4. Run `npm run prisma:migrate:dev` to apply the database migrations.
+5. Run `npm run prisma:generate` to generate the Prisma client.
+6. Run `npm run dev` to start the project in development mode.
 
 ## 🔌API Endpoints
 
