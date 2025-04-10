@@ -21,5 +21,7 @@ export class PostEntity {
     if (!tags) throw CustomError.badRequest('Missing tags')
     if (!createdAt) throw CustomError.badRequest('Missing createdAt')
     if (!updatedAt) throw CustomError.badRequest('Missing updatedAt')
+
+    return new PostEntity(id, title, content, category, tags, createdAt, updatedAt)
   }
 }

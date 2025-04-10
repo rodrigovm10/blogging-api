@@ -21,7 +21,7 @@ model Post {
   category    String 
   tags        String[]
   createdAt   DateTime  @default(now())
-  updatedAt   DateTime?  
+  updatedAt   DateTime  @default(now())
 
   @@index([title])
   @@map("post")

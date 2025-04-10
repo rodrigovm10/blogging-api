@@ -13,6 +13,7 @@ export class CreatePostDto {
     if (!content || content.length === 0) return ['Content is required']
     if (!category || category.length === 0) return ['Category is required']
     if (!tags || tags.length === 0) return ['Tags are required']
+    if (tags && !Array.isArray(tags)) return ['Tags must be an array']
 
     return [undefined, new CreatePostDto(title, content, category, tags)]
   }

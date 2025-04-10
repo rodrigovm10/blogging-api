@@ -1,6 +1,7 @@
 import { Request, Response } from 'express'
 import { PostService } from '../services/post.service'
 import { CustomError } from '../../domain/errors/custom.error'
+import { CreatePostDto } from '../../domain/dto/posts/create-post.dto'
 
 export class PostController {
   constructor(private readonly postService: PostService) {}
@@ -26,7 +27,16 @@ export class PostController {
   }
 
   public createPost = (req: Request, res: Response) => {
-    res.json('create post')
+    const [error, createPostDto] = CreatePostDto.create(req.body)
+
+    if (error) {
+      res.status(404).json({ error })
+    }
+
+    this.postService
+      .createPost(createPostDto!)
+      .then(post => res.status(201).json(post))
+      .catch(error => this.handleError(res, error))
   }
 
   public updatePost = (req: Request, res: Response) => {
