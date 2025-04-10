@@ -11,7 +11,7 @@ export class PostService {
       },
     })
 
-    if (!post) throw CustomError.badRequest('Post do not exists')
+    if (!post) throw CustomError.notFound('Post do not exists')
 
     return PostEntity.fromObject(post)
   }
@@ -42,4 +42,6 @@ export class PostService {
       throw CustomError.internalServer(String(error))
     }
   }
+
+  public async deletePost() {}
 }
