@@ -3,6 +3,7 @@ import { PostService } from '../services/post.service'
 import { CustomError } from '../../domain/errors/custom.error'
 import { CreatePostDto } from '../../domain/dto/posts/create-post.dto'
 import { UpdatePostDto } from '../../domain/dto/posts/update-post.dto'
+import { FilterDto } from '../../domain/dto/posts/filter.dto'
 
 export class PostController {
   constructor(private readonly postService: PostService) {}
@@ -26,8 +27,16 @@ export class PostController {
   }
 
   public getPosts = (req: Request, res: Response) => {
+    const { term = '' } = req.query
+    const [error, filterDto] = FilterDto.create(term as string)
+
+    if (error) {
+      res.status(400).json({ error })
+      return
+    }
+
     this.postService
-      .getPosts()
+      .getPosts(filterDto!)
       .then(posts => res.json(posts))
       .catch(error => this.handleError(res, error))
   }

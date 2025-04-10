@@ -1,5 +1,6 @@
 import { prisma } from '../../data/postgres'
 import { CreatePostDto } from '../../domain/dto/posts/create-post.dto'
+import { FilterDto } from '../../domain/dto/posts/filter.dto'
 import { UpdatePostDto } from '../../domain/dto/posts/update-post.dto'
 import { PostEntity } from '../../domain/entities/post.entity'
 import { CustomError } from '../../domain/errors/custom.error'
@@ -17,8 +18,33 @@ export class PostService {
     return PostEntity.fromObject(post)
   }
 
-  public async getPosts(): Promise<PostEntity[]> {
-    const posts = await prisma.post.findMany()
+  public async getPosts(filterDto: FilterDto): Promise<PostEntity[]> {
+    const { term } = filterDto
+
+    const posts = await prisma.post.findMany({
+      where: {
+        OR: [
+          {
+            title: {
+              contains: term,
+              mode: 'insensitive',
+            },
+          },
+          {
+            content: {
+              contains: term,
+              mode: 'insensitive',
+            },
+          },
+          {
+            category: {
+              contains: term,
+              mode: 'insensitive',
+            },
+          },
+        ],
+      },
+    })
 
     return posts.map(PostEntity.fromObject)
   }
