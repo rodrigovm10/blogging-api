@@ -7,7 +7,7 @@ export class UpdatePostDto {
     public readonly tags: string[]
   ) {}
 
-  static create(object: { [key: string]: any }): [string?, UpdatePostDto?] {
+  public static create(object: { [key: string]: any }): [string?, UpdatePostDto?] {
     const { id, title, content, category, tags } = object
 
     if (!id || isNaN(Number(id))) return ['ID must be a valid number']

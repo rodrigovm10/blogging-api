@@ -6,7 +6,7 @@ export class CreatePostDto {
     public readonly tags: string[]
   ) {}
 
-  static create(object: { [key: string]: any }): [string?, CreatePostDto?] {
+  public static create(object: { [key: string]: any }): [string?, CreatePostDto?] {
     const { title, content, category, tags } = object
 
     if (!title || title.length === 0) return ['Title is required']

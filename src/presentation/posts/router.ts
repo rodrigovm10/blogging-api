@@ -3,7 +3,7 @@ import { PostController } from './controller'
 import { PostService } from '../services/post.service'
 
 export class PostRouter {
-  static get router(): Router {
+  public static get router(): Router {
     const router = Router()
 
     const postService = new PostService()

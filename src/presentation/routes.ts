@@ -2,7 +2,7 @@ import { Router } from 'express'
 import { PostRouter } from './posts/router'
 
 export class AppRoutes {
-  static get routes(): Router {
+  public static get routes(): Router {
     const router = Router()
 
     router.use('/api/posts', PostRouter.router)
