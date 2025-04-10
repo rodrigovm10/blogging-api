@@ -4,13 +4,25 @@ import { PostEntity } from '../../domain/entities/post.entity'
 import { CustomError } from '../../domain/errors/custom.error'
 
 export class PostService {
-  public async getPosts() {
+  public async getPost(id: number): Promise<PostEntity> {
+    const post = await prisma.post.findFirst({
+      where: {
+        id,
+      },
+    })
+
+    if (!post) throw CustomError.badRequest('Post do not exists')
+
+    return PostEntity.fromObject(post)
+  }
+
+  public async getPosts(): Promise<PostEntity[]> {
     const posts = await prisma.post.findMany()
 
     return posts.map(PostEntity.fromObject)
   }
 
-  public async createPost(createPostDto: CreatePostDto) {
+  public async createPost(createPostDto: CreatePostDto): Promise<PostEntity> {
     const { title } = createPostDto
 
     const postExists = await prisma.post.findFirst({

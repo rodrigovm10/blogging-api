@@ -16,7 +16,12 @@ export class PostController {
   }
 
   public getPost = (req: Request, res: Response) => {
-    res.json('get post')
+    const id = +req.params.id
+
+    this.postService
+      .getPost(id)
+      .then(post => res.json(post))
+      .catch(error => this.handleError(res, error))
   }
 
   public getPosts = (req: Request, res: Response) => {
