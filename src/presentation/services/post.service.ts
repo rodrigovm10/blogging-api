@@ -1,5 +1,6 @@
 import { prisma } from '../../data/postgres'
 import { CreatePostDto } from '../../domain/dto/posts/create-post.dto'
+import { UpdatePostDto } from '../../domain/dto/posts/update-post.dto'
 import { PostEntity } from '../../domain/entities/post.entity'
 import { CustomError } from '../../domain/errors/custom.error'
 
@@ -44,7 +45,32 @@ export class PostService {
     }
   }
 
-  public async deletePost(id: number) {
+  public async updatePost(updatePostDto: UpdatePostDto): Promise<PostEntity> {
+    const { id, ...updatePostDtoRest } = updatePostDto
+
+    const postExists = await prisma.post.findFirst({
+      where: {
+        id,
+      },
+    })
+
+    if (!postExists) throw CustomError.notFound('Post do not exists')
+
+    try {
+      const postUpdated = await prisma.post.update({
+        where: {
+          id,
+        },
+        data: { ...updatePostDtoRest, createdAt: new Date() },
+      })
+
+      return PostEntity.fromObject(postUpdated)
+    } catch (error) {
+      throw CustomError.internalServer(String(error))
+    }
+  }
+
+  public async deletePost(id: number): Promise<void> {
     const postExists = await prisma.post.findFirst({
       where: { id },
     })
