@@ -49,6 +49,11 @@ export class PostController {
   }
 
   public deletePost = (req: Request, res: Response) => {
-    res.json('delete post')
+    const id = +req.params.id
+
+    this.postService
+      .deletePost(id)
+      .then(() => res.status(204).json())
+      .catch(error => this.handleError(res, error))
   }
 }

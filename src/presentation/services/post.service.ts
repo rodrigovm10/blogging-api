@@ -30,6 +30,7 @@ export class PostService {
         title,
       },
     })
+
     if (postExists) throw CustomError.badRequest('Post already exists')
 
     try {
@@ -43,5 +44,17 @@ export class PostService {
     }
   }
 
-  public async deletePost() {}
+  public async deletePost(id: number) {
+    const postExists = await prisma.post.findFirst({
+      where: { id },
+    })
+
+    if (!postExists) throw CustomError.notFound('Post do not exists')
+
+    await prisma.post.delete({
+      where: {
+        id,
+      },
+    })
+  }
 }
