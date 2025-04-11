@@ -13,7 +13,7 @@ export class PostService {
       },
     })
 
-    if (!post) throw CustomError.notFound('Post do not exists')
+    if (!post) throw CustomError.notFound(`Post with id ${id} do not exists`)
 
     return PostEntity.fromObject(post)
   }
@@ -50,16 +50,6 @@ export class PostService {
   }
 
   public async createPost(createPostDto: CreatePostDto): Promise<PostEntity> {
-    const { title } = createPostDto
-
-    const postExists = await prisma.post.findFirst({
-      where: {
-        title,
-      },
-    })
-
-    if (postExists) throw CustomError.badRequest('Post already exists')
-
     try {
       const post = await prisma.post.create({
         data: { ...createPostDto },
@@ -80,14 +70,14 @@ export class PostService {
       },
     })
 
-    if (!postExists) throw CustomError.notFound('Post do not exists')
+    if (!postExists) throw CustomError.notFound(`Post with id ${id} do not exists`)
 
     try {
       const postUpdated = await prisma.post.update({
         where: {
           id,
         },
-        data: { ...updatePostDtoRest, createdAt: new Date() },
+        data: { ...updatePostDtoRest, updatedAt: new Date() },
       })
 
       return PostEntity.fromObject(postUpdated)
@@ -101,7 +91,7 @@ export class PostService {
       where: { id },
     })
 
-    if (!postExists) throw CustomError.notFound('Post do not exists')
+    if (!postExists) throw CustomError.notFound(`Post with id ${id} do not exists`)
 
     await prisma.post.delete({
       where: {

@@ -45,7 +45,7 @@ export class PostController {
     const [error, createPostDto] = CreatePostDto.create(req.body)
 
     if (error) {
-      res.status(404).json({ error })
+      res.status(400).json({ error })
       return
     }
 
